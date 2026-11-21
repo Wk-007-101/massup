@@ -452,7 +452,7 @@ var DB_MAX=7;
 var MEALS=[
   {k:"b",t:"07:00",name:"มื้อเช้า",desc:"ข้าว 2 ทัพพี + ไข่ 3 ฟอง + นมจืด 200 มล.",kcal:600,p:30,price:26},
   {k:"l",t:"12:00",name:"มื้อกลางวัน",desc:"ข้าวราดโปรตีน + ไข่ดาว + ข้าวพิเศษ",kcal:650,p:28,price:50},
-  {k:"pre",t:"17:30",name:"ก่อนเทรน",desc:"Mass Soy 2 ช้อน + นม 200 มล. + กล้วย 2 ลูก",kcal:470,p:23,price:15,soy:1},
+  {k:"pre",t:"17:30",name:"ก่อนเทรน",desc:"Mass Soy 2 ช้อน + นม 200 มล. + ขนมปังโฮลวีต 2 แผ่น",kcal:500,p:26,price:16,soy:1},
   {k:"d",t:"20:15",name:"หลังเทรน · มื้อหลัก",desc:"ข้าว 3 ทัพพี + เนื้อสัตว์ 150 ก. + ไข่ 1 + ผัก",kcal:780,p:50,price:40},
   {k:"n",t:"22:00",name:"ก่อนนอน",desc:"นม 200 มล. + ถั่วลิสง 30 ก.",kcal:300,p:13,price:14}
 ];
@@ -474,24 +474,13 @@ var FOODS=[
  ["milk","นมจืด 200 มล. (จากกล่องลิตร)",130,6.5,10,2],["milk225","นมจืดกล่องเล็ก 225 มล.",150,7,14,2],["soymilk","นมถั่วเหลือง 250 มล.",130,7,12,2],
  ["yogurt","โยเกิร์ต 1 ถ้วย",120,5,14,2],["soy_w","Mass Soy 2 ช้อน + น้ำ",210,13,0,2,1],["soy_m","Mass Soy 2 ช้อน + นม 200 มล.",340,19.5,10,2,1],
  ["shake","เชคทำเอง (นม 400 + กล้วย 2 + โอ๊ต + เนยถั่ว)",700,25,35,2],["whey","เวย์ 1 สกู๊ป + น้ำ",120,24,20,2],["bubble","ชานมไข่มุก",450,4,45,2],
- ["rice","ข้าวสวย 1 ทัพพี",80,1.5,1.5,3],["sticky","ข้าวเหนียว 1 ห่อ",230,4.5,10,3],["bread","ขนมปังโฮลวีต 1 แผ่น",80,3.5,3,3],
+ ["rice","ข้าวสวย 1 ทัพพี",80,1.5,1.5,3],["sticky","ข้าวเหนียว 1 ห่อ",230,4.5,10,3],["bread","ขนมปังโฮลวีต 1 แผ่น",80,3.5,3,3],["bread2","ขนมปังโฮลวีต 2 แผ่น",160,7,6,3],
  ["banana","กล้วยน้ำว้า 1 ลูก",65,0.8,2.5,3],["oats","ข้าวโอ๊ต 4 ช้อนโต๊ะ (40 ก.)",150,5,5,3],["peanut","ถั่วลิสงอบ 30 ก.",170,7,4,3],
  ["pb","เนยถั่ว 1 ช้อนโต๊ะ",95,4,4,3],["potato","มันเทศต้ม 1 หัวกลาง",130,2.5,10,3],["sandwich","แซนด์วิชทูน่า",260,12,35,3],
  ["onigiri","ข้าวปั้น 1 ก้อน",180,5,20,3],["veg","ผักผัดน้ำมัน 1 ส่วน",120,3,8,3],["oil","น้ำมันพืช 1 ช้อนโต๊ะ",120,0,1,3]
 ].map(function(a){return {id:a[0],name:a[1],kcal:a[2],p:a[3],price:a[4],cat:a[5],soy:a[6]||0};});
 var FOOD={};FOODS.forEach(function(f){FOOD[f.id]=f;});
 
-var SHOP=[
-  {id:"egg",name:"ไข่ไก่",qty:"1 แผง (30 ฟอง)",price:135},
-  {id:"milk",name:"นมจืด 1 ลิตร",qty:"5 กล่อง",price:220},
-  {id:"chicken",name:"อกไก่สด",qty:"~1.4 กก.",price:150},
-  {id:"rice",name:"ข้าวสาร",qty:"~1.7 กก. (ถุง 5 กก. ใช้ ~3 สัปดาห์)",price:60},
-  {id:"banana",name:"กล้วยน้ำว้า",qty:"2 หวี",price:50},
-  {id:"peanut",name:"ถั่วลิสงอบ",qty:"250 ก.",price:35},
-  {id:"veg",name:"ผัก น้ำมัน เครื่องปรุง",qty:"ตามใช้",price:60}
-];
-var LUNCH_WEEK=250;
-var PREP=["หุงข้าวทีเดียวพอ 2 มื้อ แบ่งใส่กล่อง","ต้มไข่ 10 ฟอง เก็บตู้เย็น","หมักอกไก่ แบ่งกล่องละ 200 ก. (3–4 กล่อง)","ล้างและหั่นผักใส่กล่อง","แบ่งถั่วลิสงเป็นถุงละ 30 ก.","เช็กว่า Mass Soy และนมพอทั้งสัปดาห์"];
 
 /* ---------- state ---------- */
 var KEY="massup.v1";
@@ -677,7 +666,7 @@ function renderFood(){
     rows+='<tr><td>'+DOWS[parseKey(dk).getDay()]+' '+parseKey(dk).getDate()+'</td><td class="num">'+(sp!=null?sp+" ฿":'<span class="muted">–</span>')+'</td><td style="width:45%"><div class="bar"><span style="width:'+Math.min(100,(sp||0)/S.set.budget*100)+'%;background:'+((sp||0)>S.set.budget?"var(--bad)":"var(--good)")+'"></span></div></td></tr>';}
   var wb=S.set.budget*7;
   h.push('<div class="card"><div class="card-h"><h3>💸 ค่าใช้จ่ายสัปดาห์นี้</h3><span class="pill '+(tot>wb?"bad":"good")+'">'+fmtN(tot)+' / '+fmtN(wb)+' ฿</span></div><div class="tbl"><table><tbody>'+rows+'</tbody></table></div><p class="small muted">กรอกยอดจริงที่การ์ด "นิสัยฟื้นตัว" ในหน้าวันนี้ทุกวัน</p></div>');
-  h.push('<button class="btn block" data-act="go" data-v="shop">🛒 รายการซื้อของ + เตรียมอาหารวันอาทิตย์</button>');
+  h.push('<button class="btn block" data-act="go" data-v="shop">🛒 ซื้อของ · แผนรายเดือน · เมนูสัปดาห์</button>');
   h.push('<div class="card tight"><h3>เทคนิคสำหรับคนกินได้น้อย</h3><ul class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px">'+
     '<li><b>ดื่มแคลอรี่ดีกว่าเคี้ยว</b> นมกับเชคไม่ทำให้อิ่มเท่าข้าวที่แคลอรี่เท่ากัน</li><li>ไม่ดื่มน้ำเปล่าเยอะก่อนหรือระหว่างมื้อ ดื่มระหว่างวันแทน</li>'+
     '<li>เพิ่มแคลอรี่ไม่เพิ่มปริมาณ: น้ำมันผัดเพิ่ม 1 ช้อน (+120) · ไข่ดาวแทนไข่ต้ม · เนยถั่วในเชค</li><li>ผักมีทุกมื้อหลักแต่พอดี ผักทำให้อิ่มเร็ว</li>'+
@@ -698,20 +687,64 @@ function foodSheet(mode,mk){
 }
 
 /* ---------- SHOP ---------- */
+/* ---------- SHOP: big/small week cycle (4-week month) ---------- */
+// cycle: week 1 = ใหญ่ (+ของรายเดือน), 2 = เล็ก, 3 = ใหญ่, 4 = เล็ก
+var SHOPI=[
+  {id:"egg",ico:"🥚",name:"ไข่ไก่",big:["1 แผง 30 ฟอง",144],small:["1 แผง 30 ฟอง",144],lasts:"7 วัน · วันละ ~4 ฟอง",store:"เก็บช่องไข่ในตู้เย็น อยู่ได้ 3–4 สัปดาห์"},
+  {id:"milk",ico:"🥛",name:"นมสดรสจืด 1 ลิตร",big:["5 กล่อง",255],small:["5 กล่อง",255],lasts:"7 วัน · วันละ ~600 มล.",store:"นมพาสเจอร์ไรส์ แช่เย็นตลอด เลือกวันหมดอายุเหลือ ≥7 วัน เปิดแล้วใช้ใน 2–3 วัน เปิดทีละกล่อง"},
+  {id:"bread",ico:"🍞",name:"ขนมปังโฮลวีต 500 ก.",big:["1 ห่อ",44],small:["1 ห่อ",44],lasts:"7 วัน · วันละ 2 แผ่น",store:"ขึ้นราใน 5–7 วัน ถ้าเหลือเกิน 5 วัน แช่ช่องฟรีซแล้วปิ้งก่อนกิน"},
+  {id:"veg",ico:"🥬",name:"ผักสด",big:["3–4 อย่าง",40],small:["3–4 อย่าง",40],lasts:"5–7 วัน",store:"กะหล่ำ แครอท บรอกโคลีอยู่ได้นานกว่าผักใบ · ห่อทิชชูใส่กล่อง แช่ช่องผัก"},
+  {id:"chicken",ico:"🍗",name:"ไก่",big:["อกไก่ 2 กก.",340],small:["สะโพก/น่องไก่ 1 กก.",95],lasts:"อก 2 กก. ≈ 10 วัน + สะโพก 1 กก. ≈ 4–5 วัน (วันละ ~200 ก.)",store:"แบ่งถุงละ 200 ก. แช่ช่องฟรีซทันที · คืนก่อนใช้ย้ายลงช่องธรรมดา 1 ถุง · สะโพกถูกกว่าและให้แคลอรี่มากกว่า"},
+  {id:"rice",ico:"🍚",name:"ข้าวหอมมะลิ 2 กก.",big:["1 ถุง",109],small:null,lasts:"~14–18 วัน · วันละ 5 ทัพพี",store:"เทใส่ถังหรือขวดปิดฝา กันมอดและความชื้น"},
+  {id:"peanut",ico:"🥜",name:"ถั่วลิสงอบเกลือ 160 ก.",big:["2 ถุง",76],small:["1 ถุง",38],lasts:"ถุงละ ~5 วัน · วันละ 30 ก.",store:"หนีบปากถุงให้สนิท กันชื้นและกลิ่นหืน"},
+  {id:"oil",ico:"🫙",name:"น้ำมันพืช + ซีอิ๊ว/น้ำปลา/ซอสหอยนางรม",big:["ตามที่หมด",60],small:null,monthly:true,lasts:"~4 สัปดาห์",store:"ซื้อเฉพาะสัปดาห์ที่ 1 ของรอบ"}
+];
+var LUNCH_WEEK=250;
+var PREP=["หุงข้าวทีเดียวพอ 2 มื้อ แบ่งใส่กล่อง","ต้มไข่ 10 ฟอง เก็บตู้เย็น","แบ่งไก่ถุงละ 200 ก. แช่ฟรีซ ย้ายลงช่องธรรมดา 1 ถุงสำหรับพรุ่งนี้","ล้างและหั่นผักใส่กล่อง","แบ่งถั่วลิสงเป็นถุงละ 30 ก.","เช็กวันหมดอายุนม และ Mass Soy ว่าพอทั้งสัปดาห์"];
+var DINNERS={big:["ไก่ผัดกะเพรา + ไข่ดาว","อกไก่ผัดกระเทียมพริกไทย","ไก่ผัดพริกแกงถั่วฝักยาว","ต้มจืดไก่ผักกาด + ไข่เจียว","อกไก่ย่าง/อบ + ผัดผักรวม","ข้าวผัดไก่ใส่ไข่ 2 ฟอง","ยำอกไก่ (วันเตรียมอาหาร)"],
+             small:["อกไก่ผัดน้ำมันหอย + บรอกโคลี","อกไก่ผัดเม็ดมะม่วง/ผัดเปรี้ยวหวาน","ไก่ผัดขิง + ไข่ต้ม","สะโพกไก่ทอดกระเทียม","สะโพกไก่ต้มข่า/แกงจืด","สะโพกไก่ผัดกะเพรา + ไข่ดาว","ข้าวผัดไข่ + ไก่ที่เหลือ (วันเตรียมอาหาร)"]};
+var BREAKFASTS=["ไข่ต้ม 3 ฟอง","ไข่เจียว 3 ฟอง","ไข่ดาว 2 + ไข่ต้ม 1","ไข่ตุ๋น 3 ฟอง","ไข่เจียวใส่ผัก 3 ฟอง","ไข่ต้ม 3 ฟอง","โจ๊ก/ข้าวต้มใส่ไข่ 3 ฟอง"];
+function cycleInfo(mon){
+  var base=S.set.shopAnchor||mondayOf(S.set.start),wi=Math.floor(daysBetween(base,mon)/7);
+  var pos=((wi%4)+4)%4+1;return {pos:pos,type:pos%2===1?"big":"small",cycleStart:addDays(mon,-(pos-1)*7)};
+}
+function shopLines(mon){
+  var ci=cycleInfo(mon),out=[];
+  SHOPI.forEach(function(it){var p=it[ci.type];if(!p)return;if(it.monthly&&ci.pos!==1)return;
+    var key=it.id+"_"+ci.type,price=S.prices[key]!=null?+S.prices[key]:p[1];out.push({it:it,qty:p[0],price:price,key:key});});
+  return {ci:ci,lines:out,total:out.reduce(function(s,l){return s+l.price;},0)};
+}
 function renderShop(){
-  var wk=mondayOf(todayKey()),sh=S.shop[wk]||(S.shop[wk]={}),pr=S.prep[wk]||(S.prep[wk]={}),tot=0,done=0,h=[];
+  var tk=todayKey(),mon=mondayOf(tk),sl=shopLines(mon),ci=sl.ci,sh=S.shop[mon]||(S.shop[mon]={}),pr=S.prep[mon]||(S.prep[mon]={}),h=[];
+  var done=sl.lines.filter(function(l){return sh[l.it.id];}).length;
   h.push('<button class="back" data-act="go" data-v="food">← อาหาร</button>');
-  var rows=SHOP.map(function(it){var p=S.prices[it.id]!=null?S.prices[it.id]:it.price;tot+=+p;if(sh[it.id])done++;
-    return '<div class="check'+(sh[it.id]?" on":"")+'" data-act="shopck" data-id="'+it.id+'"><span class="box"></span><div class="body"><div class="t">'+esc(it.name)+'</div><div class="d">'+esc(it.qty)+'</div></div><div class="meta"><input class="input sm num" type="number" inputmode="numeric" value="'+p+'" data-bind="price" data-id="'+it.id+'" aria-label="ราคา"> ฿</div></div>';}).join("");
-  var all=tot+LUNCH_WEEK,wb=S.set.budget*7;
-  h.push('<div class="card"><div class="card-h"><h2>🛒 ซื้อของสัปดาห์นี้</h2><span class="pill">'+done+'/'+SHOP.length+'</span></div><p class="small muted">สัปดาห์เริ่ม '+fmtDate(wk)+' · ติ๊กเมื่อซื้อแล้ว แก้ราคาให้ตรงร้านแถวหอได้</p><div class="stack">'+rows+'</div>'+
-    '<div class="divider"></div><div class="row" style="justify-content:space-between"><span>ของสด/ของแห้ง</span><b class="num">'+fmtN(tot)+' ฿</b></div>'+
-    '<div class="row" style="justify-content:space-between"><span>ข้าวกลางวัน 5 วัน (~50 ฿)</span><b class="num">'+LUNCH_WEEK+' ฿</b></div>'+
-    '<div class="row" style="justify-content:space-between"><span><b>รวมทั้งสัปดาห์</b></span><span class="pill '+(all>wb?"bad":"good")+'">'+fmtN(all)+' / '+fmtN(wb)+' ฿ · เฉลี่ย '+Math.round(all/7)+' ฿/วัน</span></div>'+
-    '<button class="btn ghost sm" data-act="shopReset" style="align-self:flex-start">ล้างติ๊กสัปดาห์นี้</button></div>');
-  h.push('<div class="card"><div class="card-h"><h2>🍱 เตรียมอาหารวันอาทิตย์</h2><span class="pill">'+Object.keys(pr).filter(function(x){return pr[x];}).length+'/'+PREP.length+'</span></div><p class="small muted">ใช้เวลา ~1 ชม. แล้ววันจันทร์–พุธไม่ต้องคิดว่าจะกินอะไร</p><div class="stack">'+
+  h.push('<div class="card"><div class="card-h"><div><span class="small muted">สัปดาห์ที่ '+ci.pos+' ของรอบ 4 สัปดาห์ · '+fmtDate(mon)+' – '+fmtDate(addDays(mon,6))+'</span><h2>'+(ci.type==="big"?"🛒 สัปดาห์ใหญ่":"🧺 สัปดาห์เล็ก")+'</h2></div><span class="pill">'+done+'/'+sl.lines.length+'</span></div>'+
+    '<p class="small muted">'+(ci.type==="big"?"ซื้อครบชุด รวมของที่อยู่ได้นาน (ข้าว ไก่ 2 กก. ถั่ว 2 ถุง"+(ci.pos===1?" + น้ำมันเครื่องปรุงรายเดือน":"")+")":"ซื้อเฉพาะของสดที่เสียเร็ว + ไก่ส่วนเติม ข้าวและของแห้งยังเหลือจากสัปดาห์ใหญ่")+' · แก้ราคาได้ ระบบจำแยกสัปดาห์ใหญ่/เล็ก</p><div class="stack">'+
+    sl.lines.map(function(l){var on=!!sh[l.it.id];return '<div class="check'+(on?" on":"")+'" data-act="shopck" data-id="'+l.it.id+'"><span class="box"></span><div class="body"><div class="t">'+l.it.ico+' '+esc(l.it.name)+'</div><div class="d"><b>'+esc(l.qty)+'</b> · ใช้ได้ '+esc(l.it.lasts)+'</div><div class="d" style="font-size:12px">💡 '+esc(l.it.store)+'</div></div><div class="meta"><input class="input sm num" type="number" inputmode="numeric" value="'+l.price+'" data-bind="price" data-id="'+l.key+'" aria-label="ราคา"> ฿</div></div>';}).join("")+'</div>'+
+    '<div class="divider"></div><div class="row" style="justify-content:space-between"><span>ของที่ต้องซื้อสัปดาห์นี้</span><b class="num">'+fmtN(sl.total)+' ฿</b></div>'+
+    '<div class="row" style="justify-content:space-between"><span>ข้าวกลางวัน จ.–ศ. (~50 ฿)</span><b class="num">'+LUNCH_WEEK+' ฿</b></div>'+
+    '<div class="row"><button class="btn ghost sm" data-act="shopReset">ล้างติ๊กสัปดาห์นี้</button>'+(ci.pos!==1?'<button class="btn ghost sm" data-act="shopAnchor">ตั้งสัปดาห์นี้เป็นสัปดาห์ใหญ่ (ที่ 1)</button>':'')+'</div>'+
+    '<p class="small muted">ซื้อชุดใหญ่ไปแล้วแต่แอปขึ้นว่าสัปดาห์เล็ก? กดปุ่มด้านบน แล้วรอบจะนับใหม่จากสัปดาห์นี้</p></div>');
+  // 4-week plan
+  var rows="",sum=0;
+  for(var i=0;i<4;i++){var wm=addDays(ci.cycleStart,i*7),s2=shopLines(wm),cur=wm===mon;sum+=s2.total;
+    rows+='<div class="ex'+(cur?" done":"")+'" style="gap:4px"><div class="card-h"><b>สัปดาห์ '+(i+1)+' · '+(s2.ci.type==="big"?"🛒 ใหญ่":"🧺 เล็ก")+(cur?' <span class="pill good">สัปดาห์นี้</span>':'')+'</b><b class="num">'+fmtN(s2.total)+' ฿</b></div><span class="small muted">'+fmtDate(wm)+' – '+fmtDate(addDays(wm,6))+'</span><span class="small">'+s2.lines.map(function(l){return l.it.ico+" "+l.qty.replace(/ \(.*\)/,"")+(l.it.id==="chicken"||l.it.id==="rice"||l.it.id==="oil"?"":" "+l.it.name.split(" ")[0]);}).join(" · ")+'</span></div>';}
+  var lunch4=LUNCH_WEEK*4,all4=sum+lunch4,perDay=all4/28,bud4=S.set.budget*28;
+  var sl2=soyLeft(),soyOut=addDays(tk,Math.max(0,sl2));
+  h.push('<div class="card"><div class="card-h"><h2>📅 แผนซื้อรายเดือน</h2><span class="small muted">รอบ '+fmtDate(ci.cycleStart)+' – '+fmtDate(addDays(ci.cycleStart,27))+'</span></div>'+rows+
+    '<div class="divider"></div><div class="row" style="justify-content:space-between"><span>ของสด/ของแห้ง 4 สัปดาห์</span><b class="num">'+fmtN(sum)+' ฿</b></div>'+
+    '<div class="row" style="justify-content:space-between"><span>ข้าวกลางวัน 20 วัน</span><b class="num">'+fmtN(lunch4)+' ฿</b></div>'+
+    '<div class="row" style="justify-content:space-between"><b>รวม 28 วัน</b><span class="pill '+(all4>bud4?"warn":"good")+'">'+fmtN(all4)+' / '+fmtN(bud4)+' ฿ · ~'+Math.round(perDay)+' ฿/วัน</span></div>'+
+    (all4>bud4?'<p class="small muted">เกินงบ ~'+Math.round(perDay-S.set.budget)+' ฿/วัน · ทางลด: เปลี่ยนอกไก่สัปดาห์ใหญ่บางส่วนเป็นสะโพก (ถูกกว่า ~40%) · นม UHT กล่องลิตรถ้าถูกกว่าแถวบ้าน · ไปซื้อเองที่สาขาประหยัดค่าส่ง</p>':'<p class="small muted">อยู่ในงบ ส่วนที่เหลือเก็บเป็นทุนซื้อดัมเบลหนักขึ้นเดือนที่ 3</p>')+
+    '<p class="small">🥤 <b>Mass Soy</b> เหลือ '+Math.max(0,sl2)+' ครั้ง · คาดว่าหมดราว <b>'+fmtDate(soyOut)+'</b> · ไม่ต้องซื้อใหม่ ใช้นม 200 มล. + ไข่ต้ม 2 ฟองแทน (เพิ่มไข่อีก 14 ฟอง/สัปดาห์ ≈ +70 ฿)</p></div>');
+  // menu rotation
+  var menu=DINNERS[ci.type],mrows="";
+  for(var d=0;d<7;d++){var dk=addDays(mon,d),isT=dk===tk;mrows+='<tr'+(isT?' style="background:var(--accent-bg)"':'')+'><td><b>'+DOWS[parseKey(dk).getDay()]+'</b></td><td class="small">'+BREAKFASTS[d]+'</td><td class="small">'+menu[d]+'</td></tr>';}
+  h.push('<div class="card"><div class="card-h"><h2>🍳 เมนูสัปดาห์นี้</h2><span class="small muted">'+(ci.type==="big"?"ใช้อกไก่ชุดใหม่":"ใช้อกไก่ที่เหลือ → ต่อด้วยสะโพก")+'</span></div>'+
+    '<div class="tbl"><table><thead><tr><th>วัน</th><th>เช้า (+ข้าว 2 ทัพพี + นม)</th><th>เย็น (ข้าว 3 ทัพพี + ไก่ 200 ก. ดิบ + ไข่ 1)</th></tr></thead><tbody>'+mrows+'</tbody></table></div>'+
+    '<p class="small muted">กลางวันซื้อที่วิทยาลัย (ข้าวราดโปรตีน + ไข่ดาว + ข้าวพิเศษ) · 17:30 Mass Soy + นม + ขนมปัง 2 แผ่น · 22:00 นม + ถั่ว 30 ก. · เสาร์–อาทิตย์ทำกลางวันเองด้วยไข่/ไก่ที่มี</p></div>');
+  h.push('<div class="card"><div class="card-h"><h2>🍱 เตรียมอาหารวันอาทิตย์</h2><span class="pill">'+Object.keys(pr).filter(function(x){return pr[x];}).length+'/'+PREP.length+'</span></div><p class="small muted">ใช้เวลา ~1 ชม. แล้วจันทร์–พุธไม่ต้องคิดว่าจะกินอะไร</p><div class="stack">'+
     PREP.map(function(t,i){return checkRow(!!pr[i],"prepck",'data-i="'+i+'"',esc(t),"","","");}).join("")+'</div></div>');
-  h.push('<div class="card tight"><h3>สลับโปรตีนตามราคา</h3><p class="small">น่องหรือสะโพกไก่ถูกกว่าอกไก่และให้แคลอรี่มากกว่า · เต้าหู้แข็ง ปลาทู ทูน่ากระป๋อง นมถั่วเหลือง ใช้แทนกันได้ · นมกล่องลิตรถูกกว่ากล่องเล็กเกือบครึ่ง</p></div>');
   $("v-shop").innerHTML=h.join("");
 }
 
@@ -876,7 +909,7 @@ function addPhotoFile(file){
 /* ---------- MORE / SETTINGS ---------- */
 function renderMore(){
   $("v-more").innerHTML='<h2>เพิ่มเติม</h2><div class="menu">'+
-    '<button data-act="go" data-v="shop"><span class="mi">🛒</span><b>ซื้อของ</b><span>รายการรายสัปดาห์ + เตรียมอาหาร</span></button>'+
+    '<button data-act="go" data-v="shop"><span class="mi">🛒</span><b>ซื้อของ</b><span>สัปดาห์ใหญ่/เล็ก แผนรายเดือน เมนู</span></button>'+
     '<button data-act="go" data-v="stamina"><span class="mi">❤️‍🔥</span><b>STAMINA</b><span>อุ้งเชิงกราน หายใจ สะโพก ความอึด</span></button>'+
     '<button data-act="studio" data-ex="dbpress"><span class="mi">🧍</span><b>สตูดิโอท่า 3D</b><span>หุ่นกายวิภาค ทุกท่าในโปรแกรม</span></button>'+
     '<button data-act="go" data-v="settings"><span class="mi">⚙️</span><b>ตั้งค่า & สำรอง</b><span>เป้าหมาย งบ สำรอง/นำเข้าข้อมูล</span></button></div>'+
@@ -939,7 +972,7 @@ function renderStamina(){
   var mon=mondayOf(k),z2=0,hip=0;for(var i=0;i<7;i++){var dd=S.days[addDays(mon,i)];if(dd&&dd.k){if(dd.k.z2)z2++;if(dd.k.hip)hip++;}}
   h.push('<div class="sec-title">รายสัปดาห์ · โหมด Bulk</div>');
   h.push('<div class="card"><div class="stack">'+
-    checkRow(!!kk.z2,"stk",'data-id="z2"',"Zone 2 · 25 นาที (วันนี้)","",'เดินเร็วหรือจ็อกเบา พูดเป็นประโยคได้ · '+exLink("run","ดูท่า")+' · <b>สัปดาห์นี้ '+z2+'/2</b> · ทุกครั้งกินเพิ่ม กล้วย 1 + นม 1 (~200 kcal)',"")+
+    checkRow(!!kk.z2,"stk",'data-id="z2"',"Zone 2 · 25 นาที (วันนี้)","",'เดินเร็วหรือจ็อกเบา พูดเป็นประโยคได้ · '+exLink("run","ดูท่า")+' · <b>สัปดาห์นี้ '+z2+'/2</b> · ทุกครั้งกินเพิ่ม ขนมปัง 1 แผ่น + นม 1 (~210 kcal)',"")+
     checkRow(!!kk.hip,"stk",'data-id="hip"',"ยืด + เต้นคุมสะโพก 15–20 นาที (วันนี้)","",exLink("hipflex","Hip flexor")+" · "+exLink("ptilt","Pelvic tilt")+" · "+exLink("hipcircle","Hip circle")+" · "+exLink("hipfig8","Figure-8")+' · <b>สัปดาห์นี้ '+hip+'/1</b>',"")+'</div>'+
     '<p class="small muted">ทำวันพุธหรือเสาร์ (วันพักเวท) ห้ามใช้แทนวันเวทหรือ Kegel</p></div>');
   // full program
@@ -1007,6 +1040,7 @@ document.addEventListener("click",function(e){
   case "soyAdj":S.soy.adj+=(+el.dataset.d);save();rerender();break;
   case "soyRefill":S.soy.stock+=45;save();rerender();toast("เติม Mass Soy +45 ครั้ง");break;
   case "shopck":var wk=mondayOf(k);S.shop[wk]=S.shop[wk]||{};S.shop[wk][el.dataset.id]=S.shop[wk][el.dataset.id]?0:1;save();rerender();break;
+  case "shopAnchor":S.set.shopAnchor=mondayOf(k);save();rerender();toast("สัปดาห์นี้ = สัปดาห์ใหญ่ · สัปดาห์หน้า = สัปดาห์เล็ก");break;
   case "shopReset":S.shop[mondayOf(k)]={};save();rerender();break;
   case "prepck":var wk2=mondayOf(k);S.prep[wk2]=S.prep[wk2]||{};S.prep[wk2][el.dataset.i]=S.prep[wk2][el.dataset.i]?0:1;save();rerender();break;
   case "selDay":selDay=el.dataset.k;rerender();break;
