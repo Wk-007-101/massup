@@ -1,5 +1,5 @@
 /* MASS UP service worker: app shell cache-first, fonts stale-while-revalidate */
-var VERSION = "massup-v1";
+var VERSION="massup-v1.3";
 var SHELL = ["./", "index.html", "three.min.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
